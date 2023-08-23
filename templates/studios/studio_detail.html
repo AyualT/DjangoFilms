@@ -1,0 +1,41 @@
+{% extends 'films/base.html' %}
+{% load hitcount_tags %}
+
+{% block new %}
+    {% if perms.films.change_film %}
+        <a href="{% url 'studio_new' %}" style="float: left; font-size: 50px; margin-top: 50px; margin-left: 50px;">
+            {% include '../icons/file-earmark-plus.svg' %}
+        </a>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="studio_card" style="border-bottom: 2px brown solid; margin: 10px;">
+    <div class="studio_card_top">
+        <div class="studio_title">
+            <p>{{studio.name}}</p>
+        </div>
+        {% if perms.studios.change_studio %}
+        <div class="studio_edit">
+            <a href="{% url 'studio_edit' pk=studio.pk %}">
+                {% include 'icons/Three-dots-vertical.svg' %}
+            </a>
+        </div>
+        {% endif %}
+    </div>
+    <img src="/media/{{studio.logo}}" alt="">
+    <p>Headquarters: {{studio.headquarters}}</p>
+    <p>Founder: {{studio.founder}}</p>
+    <p>Founded: {{studio.founded}}</p>
+    <p>Site: {{studio.main_site}}</p>
+    <p>Views: {% get_hit_count for studio %}</p>
+    <p>Films: {% for film in films_list %} <a href="{% url 'film_detail' pk=film.pk %}">{{film.title}}</a> {% endfor %}</p>
+</div>
+
+<div class="recommended">
+    <p>Recommended studios:</p>
+    {% for rec in recommended %}
+        <a href="{% url 'studio_detail' pk=rec.pk %}">{{ rec.name }}</a>
+    {% endfor %}
+</div>
+{% endblock %}

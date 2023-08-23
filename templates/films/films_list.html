@@ -1,0 +1,71 @@
+{% extends 'films/base.html' %}
+
+{% block new %}
+    {% if perms.films.change_film %}
+        <a href="{% url 'film_new' %}" style="float: left; font-size: 50px; margin-top: 50px; margin-left: 50px;">
+            {% include '../icons/file-earmark-plus.svg' %}
+        </a>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <div>
+        <form method="GET">
+            {{form.title}}
+            <button type="submit">Search</button>
+        </form>
+    </div>
+    <div style="margin-top: 5px;">
+        <a href="{% url 'new_films_list' %}"><button>New films</button></a>
+        <a href="{% url 'popular_films_list' %}"><button>Popular films</button></a>
+        <a style="margin-right: 50px;" href="{% url 'films_by_rating_list' %}"><button>Films by rating</button></a>
+            <a href="{% url 'action_films_list' %}"><button>Action</button></a>
+            <a href="{% url 'comedy_films_list' %}"><button>Comedy</button></a>
+            <a href="{% url 'horror_films_list' %}"><button>Horror</button></a>
+            <a href="{% url 'thriller_films_list' %}"><button>Thriller</button></a>
+    </div>
+    
+    {% for film in page_obj %}
+        {% if film.is_active %}
+        <div class="film_card">
+            <div class="film_card_top">
+                <div class="film_title">
+                    <a href="{% url 'film_detail' pk=film.pk %}"><p>{{film.title}}</p></a>
+                </div>
+                <div class="right">
+                    <img src="/media/{{film.poster}}" alt="">
+                </div>
+                {% if perms.films.change_film %}
+                <div class="film_edit">
+                    <a href="{% url 'film_edit' pk=film.pk %}">
+                        {% include 'icons/Three-dots-vertical.svg' %}
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+            <p>{{film.studio}}</p>
+            <p>{{film.desc|linebreaks|truncatewords:50}}</p>
+            <p>Rating: 
+                {{film.revs}}
+            </p>
+        </div>
+        {% endif %}
+    {% endfor %}
+    <div class="paginator" style="margin: auto;">
+        <span>
+            {% if page_obj.has_previous %}
+                <a href="?page=1">first</a>
+                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span>
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">last</a>
+            {% endif %}
+        </span>
+    </div>
+{% endblock %}

@@ -1,0 +1,168 @@
+body{
+    background-color: silver;
+}
+.header {
+    background-color: rgb(51, 192, 51);
+    border: solid silver 2px;
+    border-radius: 5px;
+    width: 1080px;
+    height: 300px;
+    margin: auto;
+}
+.content {
+    background-color: white;
+    border: green solid 2px;
+    border-radius: 5px;
+    width: 1080px;
+    height: max-content;
+    margin: auto;
+}
+.film_card{
+    border-bottom: 2px brown solid; margin: 10px;
+    margin: 10px;
+    background-color: white;
+}
+.film_card_top{
+    height: 100px;
+    width: 1040px;
+}
+.film_title{
+    font-family: Arial;
+    font-size: 30px;
+    margin-left: 10px;
+    width: fit-content;
+    float: left;
+}
+.film_edit{
+    width: fit-content;
+    margin-top: 10px;
+    margin-right: 10px;
+    float: right;
+    font-size: 50px;
+}
+.film_card p{
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.film_card .right{
+    width: 300px;
+    height: max-content;
+    float: right;
+}
+.film_card .right img{
+    margin-left: 50px;
+    width: 200px;
+    height: 200px;
+    object-fit: contain;
+}
+.film_card img{
+    width: 300px;
+    height: 400px;
+    object-fit: contain;
+}
+.likes{
+    margin: 10px;
+    color: gray;
+}
+.likes .button{
+    font-size: large;
+    color: gray;
+}
+.likes .button-like {
+    font-size: large;
+    color: #006b1b;
+}
+.likes .button-dislike {
+    font-size: large;
+    color: #de0400;
+}
+
+
+.studio_card{
+    border-bottom: 2px brown solid; margin: 10px;
+    margin: 10px;
+    background-color: white;
+}
+.studio_card_top{
+    height: 100px;
+    width: 1040px;
+}
+.studio_title{
+    font-family: Arial;
+    font-size: 30px;
+    margin-left: 10px;
+    width: fit-content;
+    float: left;
+}
+.studio_edit{
+    width: fit-content;
+    margin-top: 10px;
+    margin-right: 10px;
+    float: right;
+    font-size: 50px;
+}
+.studio_card p{
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.studio_card .right{
+    width: 300px;
+    height: max-content;
+    float: right;
+}
+.studio_card .right img{
+    margin-top: 40px;
+    width: 300px;
+    height: 80px;
+    object-fit: contain;
+}
+.studio_card img{
+    width: 350px;
+    height: 80px;
+    object-fit: contain;
+}
+
+
+.actor_card{
+    border-bottom: 2px brown solid; margin: 10px;
+    margin: 10px;
+    background-color: white;
+}
+.actor_card_top{
+    height: 100px;
+    width: 1040px;
+}
+.actor_title{
+    font-family: Arial;
+    font-size: 30px;
+    margin-left: 10px;
+    width: fit-content;
+    float: left;
+}
+.actor_edit{
+    width: fit-content;
+    margin-top: 10px;
+    margin-right: 10px;
+    float: right;
+    font-size: 50px;
+}
+.actor_card p{
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.actor_card .right{
+    width: 300px;                  
+    height: max-content;
+    float: right;
+}
+.actor_card .right img{
+    margin-left: 150px;
+    width: 100px;
+    height: 150px;
+    object-fit: contain;
+}
+.actor_card img{
+    width: 350px;
+    height: 80px;
+    object-fit: contain;
+}

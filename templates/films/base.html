@@ -1,0 +1,42 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>Document</title>
+</head>
+<body>
+    <div class="header">
+        <p style="font-size: 50px; margin: 50px; color: white;">
+            <a href="{% url 'films_list' %}">Films</a>
+            <a href="{% url 'studios_list' %}">Studios</a>
+            <a href="{% url 'actors_list' %}">Actors</a>
+        </p>
+        {% block new %}
+        {% endblock %}
+        <div style="float: right; margin-right: 20px;">
+            {% if request.user.is_authenticated and request.user.is_active %}
+                <p>User is logged in</p>
+                <p>Username: {{ request.user.username }}</p>
+                <a href="{% url 'change_password' %}"><button>Change password</button></a>   
+                <a href="{% url 'logout' %}"><button>Log Out</button></a>
+                {% if not perms.films.change_film %}
+                    <br> <a href="{% url 'get_mod' %}"><button>Become Moderator</button></a>
+                {% endif %}
+            {% else %}
+                <p>User is not logged in</p>
+                <a href="{% url 'login' %}"><button>Log in</button></a>
+                <a href="{% url 'register' %}"><button>Register</button></a>
+                {% endif %}
+        </div>
+    </div>
+    <div class="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+</html>

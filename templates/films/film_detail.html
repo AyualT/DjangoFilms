@@ -1,0 +1,119 @@
+{% extends 'films/base.html' %}
+{% load hitcount_tags %}
+
+{% block new %}
+    {% if perms.films.change_film %}
+        <a href="{% url 'film_new' %}" style="float: left; font-size: 50px; margin-top: 50px; margin-left: 50px;">
+            {% include '../icons/file-earmark-plus.svg' %}
+        </a>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <div class="film_card">
+        <div class="film_card_top">
+            <div class="film_title">
+                <p>{{film.title}}</p>
+            </div>
+            {% if perms.films.change_film %}
+            <div class="film_edit">
+                <a href="{% url 'film_edit' pk=film.pk %}">
+                    {% include 'icons/Three-dots-vertical.svg' %}
+                </a>
+            </div>
+            {% endif %}
+        </div>
+        <img src="/media/{{film.poster}}" alt="">
+        <p>Studio: <a href="{% url 'studio_detail' pk=studio.pk %}">{{film.studio}}</a></p>
+        <p>Release date: {{film.release_date}}</p>
+        <p>Distributed by: {{film.distributed_by}}</p>
+        <p>Director: {{film.director}}</p>
+        <p>Actors: 
+            {% for actor in film.stars.all %} 
+                <a href="{% url 'actor_detail' pk=actor.pk %}">{{actor.name}}</a>
+            {% endfor %}
+        </p>
+        <p>Genre: 
+            {% for genre in film.genre.all %} 
+                {{genre}} 
+            {% endfor %}
+        </p>
+        <p>Budget: ${{film.budget}}</p>
+        <p>Gross worldwide: ${{film.gross_worldwide}}</p>
+        <p>Desc: {{film.desc|linebreaks}}</p>
+        <p>Rating IMDb: {{film.rating_IMDb}}</p>
+        <p>Views: {% get_hit_count for film %}</p>
+    </div>
+    {% if film.trailer_url is not None %}
+    <div style="margin: auto;">
+        <iframe width="560" height="315" 
+        src="https://www.youtube.com/embed/{{film.trailer_url}}" 
+        title="YouTube video player" 
+        frameborder="0" 
+        allow="
+            accelerometer; 
+            autoplay; 
+            clipboard-write; 
+            encrypted-media; 
+            gyroscope; 
+            picture-in-picture; 
+            web-share" 
+        allowfullscreen></iframe>
+    </div>
+    {% endif %}
+    
+    <div class="recommended">
+        <p>Recommended films:</p>
+        {% for rec in recommended %}
+            <img src={{rec.poster.url}} width="90", height="100">
+            <a href="{% url 'film_detail' pk=rec.pk %}">{{ rec.title }}</a>
+        {% endfor %}
+    </div>
+
+    <div>
+        <div>
+            <p>Avg: {{average_rating}} | Amt: {{review_count}}</p>
+        </div>
+        <p>
+            {% if user.is_authenticated %}
+                <a href="{% url 'create_review' uid=user.pk fid=film.pk %}"><button>Review</button></a>
+            {% endif %}
+        </p>
+        {% for review in reviews %}
+            <div style="background-color: rgb(231, 247, 207);">
+                <p>{{ review.author }}</p>
+                <p>{{ review.comment }}</p>
+                <p>{{ review.rating }}</p>
+                <p>{{ review.rating_date }}</p>
+                <div class="likes">
+                    <p>
+                        {% if user.is_authenticated %}
+                            {% if not review.is_liked %}
+                            <a href="{% url 'like_review' fid=film.pk rid=review.pk uid=user.pk %}">
+                                <span class="button">{% include 'icons/arrow-up.svg' %} {{ review.likes }}</span>
+                            </a>
+                            {% else %}
+                            <a href="{% url 'like_review' fid=film.pk rid=review.pk uid=user.pk %}">
+                                <span class="button-like">{% include 'icons/arrow-up.svg' %} {{ review.likes }}</span>
+                            </a>
+                            {% endif %}
+                            {% else %}
+                            <span class="button">{% include 'icons/arrow-up.svg' %} {{ review.likes }}</span>
+                        {% endif %}
+                        |
+                        {% if user.is_authenticated %}
+                            <a href="{% url 'dislike_review' fid=film.pk rid=review.pk uid=user.pk %}">
+                            {% if not review.is_disliked %}
+                                <span class="button">{% include 'icons/arrow-down.svg' %} {{ review.dislikes }}</span></a>
+                            {% else %}
+                                <span class="button-dislike">{% include 'icons/arrow-down.svg' %} {{ review.dislikes }}</span></a>
+                            {% endif %}
+                            {% else %}
+                            <span class="button">{% include 'icons/arrow-down.svg' %} {{ review.dislikes }}</span>
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

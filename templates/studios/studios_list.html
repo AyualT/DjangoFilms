@@ -1,0 +1,55 @@
+{% extends 'films/base.html' %}
+
+{% block new %}
+    {% if perms.films.change_film %}
+        <a href="{% url 'studio_new' %}" style="float: left; font-size: 50px; margin-top: 50px; margin-left: 50px;">
+            {% include '../icons/file-earmark-plus.svg' %}
+        </a>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    {% for studio in page_obj %}
+        {% if studio.is_active %}
+        <div class="studio_card" style="border-bottom: 2px brown solid; margin: 10px;">
+            <div class="studio_card_top">
+                <div class="studio_title">
+                    <a href="{% url 'studio_detail' pk=studio.pk %}"><p class="film_title">{{studio.name}}</p></a>
+                </div>
+                <div class="right">
+                    <img src="/media/{{studio.logo}}" alt="">
+                </div>
+                {% if perms.studios.change_studio %}
+                    <div class="studio_edit">
+                        <a href="{% url 'studio_edit' pk=studio.pk %}">
+                            {% include 'icons/Three-dots-vertical.svg' %}
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+            <p>{{studio.headquarters}}</p>
+            <p>{{studio.main_site}}</p>
+            {% for film in studio.films_list %}
+                <p>{{film.title}}</p>
+            {% endfor %}
+        </div>
+        {% endif %}
+    {% endfor %}
+    <div class="paginator" style="margin: auto;">
+        <span>
+            {% if page_obj.has_previous %}
+                <a href="?page=1">first</a>
+                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span>
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">last</a>
+            {% endif %}
+        </span>
+    </div>
+{% endblock %}

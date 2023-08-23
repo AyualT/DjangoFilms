@@ -1,0 +1,45 @@
+{% extends 'films/base.html' %}
+{% load hitcount_tags %}
+
+{% block new %}
+    {% if perms.films.change_film %}
+        <a href="{% url 'actor_new' %}" style="float: left; font-size: 50px; margin-top: 50px; margin-left: 50px;">
+            {% include '../icons/file-earmark-plus.svg' %}
+        </a>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="film_card" style="border-bottom: 2px brown solid; margin: 10px;">
+    <div class="film_card_top">
+        <div class="film_title">
+            <p>{{actor.name}}</p>
+        </div>
+        {% if perms.actors.change_actor %}
+        <div class="film_edit">
+            <a href="{% url 'actor_edit' pk=actor.pk %}">
+                {% include 'icons/Three-dots-vertical.svg' %}
+            </a>
+        </div>
+        {% endif %}
+    </div>
+    <img src="/media/{{actor.poster}}" alt="">
+    <p>Born: {{actor.born}}</p>
+    <p>Height: {{actor.height}}</p>
+    <p>Children: {{actor.children}}</p>
+    <p>Site: {{actor.main_site}}</p>
+    <p>Views: {% get_hit_count for actor %}</p>
+    <p>Films: 
+        {% for film in actors_list %} 
+            <a href="{% url 'film_detail' pk=film.pk %}">{{film.title}}</a>
+        {% endfor %}
+    </p>
+</div>
+
+<div class="recommended">
+    <p>Recommended actors:</p>
+    {% for rec in recommended %}
+        <a href="{% url 'actor_detail' pk=rec.pk %}">{{ rec.name }}</a>
+    {% endfor %}
+</div>
+{% endblock %}

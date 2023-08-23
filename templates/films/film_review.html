@@ -1,0 +1,14 @@
+{% extends 'films/base.html' %}
+
+{% block content %}
+<p>Комментарий к фильму 
+    {{film.title}} 
+</p>
+<div>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Post</button>
+    </form>
+</div>
+{% endblock %}
